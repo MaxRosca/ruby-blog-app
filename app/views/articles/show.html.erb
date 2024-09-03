@@ -1,0 +1,13 @@
+<h1><%= @article.title %></h1>
+
+<p><%= @article.body %></p>
+
+<ul>
+  <li><%= link_to "Edit", edit_article_path(@article) %></li>
+  <li><%= link_to "Destroy", article_path(@article), data: {
+                    # use delete method instead of get 
+                    turbo_method: :delete,
+                    # adds a confirmation dialouge
+                    turbo_confirm: "Are you sure?"
+                  } %></li>
+</ul>
