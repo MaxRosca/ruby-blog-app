@@ -62,6 +62,6 @@ class ArticlesController < ApplicationController
     # define what parameters are allowed to be passed by user
     # in the request. permit title and body from article
     def article_params
-      params.require(:article).permit(:title, :body)
+      params.require(:article).permit(:title, :body, :status)
     end
 end

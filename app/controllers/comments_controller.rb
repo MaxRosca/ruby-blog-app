@@ -11,9 +11,21 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article)
   end
 
+  def destroy
+    # get the article with the id
+    @article = Article.find(params[:article_id])
+    # find the comment with the provided id
+    @comment = @article.comments.find(params[:id])
+    # delete te comment
+    @comment.destroy
+
+    # redirect to the article
+    redirect_to article_path(@article), status: :see_other
+  end
+
   private 
     def comment_params
       # allow only commenter and body when creating a comment
-      params.require(:comment).permit(:commenter, :body)
+      params.require(:comment).permit(:commenter, :body, :status)
     end
 end
