@@ -1,8 +1,9 @@
 class CommentsController < ApplicationController
-  def create 
+  http_basic_authenticate_with name: "dhh", password: "secret", only: :destroy
+
+  def create
     # find the article that was commented
     @article = Article.find(params[:article_id])
-    
     # create a new comment (interesting that you can create the object 
     # from the list of comments from article)
     @comment = @article.comments.create(comment_params)
