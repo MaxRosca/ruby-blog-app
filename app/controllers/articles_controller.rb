@@ -4,28 +4,28 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def show 
+  def show
     # set the variable article to the value from database,
     # take the id of it from the parameters passed by user
     @article = Article.find(params[:id])
   end
 
-  def new 
+  def new
     @article = Article.new
   end
 
   def create
-    # create a new article with the values provided
-    @article = Article.new(article_params)
+    user = User.find(session[:user_id])
 
+    @article = user.articles.create(article_params)
     # if saved successfully then redirect to it
-    if @article.save
+    if @article
       redirect_to @article
     # if not saved successfuly return status unprocessable entity
     else
+
       render :new, status: :unprocessable_entity
     end
-  
   end
 
   def edit
@@ -37,6 +37,11 @@ class ArticlesController < ApplicationController
   def update
     # get the article from the database
     @article = Article.find(params[:id])
+
+    unless @article.user == User.find(session[:user_id])
+      redirect_to article_path(@article)
+      return
+    end
 
     # update with the provided user parameters
     if @article.update(article_params)
@@ -59,7 +64,7 @@ class ArticlesController < ApplicationController
     redirect_to root_path, status: :see_other
   end
 
-  private 
+  private
     # define what parameters are allowed to be passed by user
     # in the request. permit title and body from article
     def article_params
