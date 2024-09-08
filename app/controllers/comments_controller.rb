@@ -1,10 +1,9 @@
 class CommentsController < ApplicationController
-  http_basic_authenticate_with name: "dhh", password: "secret", only: :destroy
-
+  before_action :authenticate_user
   def create
     # find the article that was commented
     @article = Article.find(params[:article_id])
-    # create a new comment (interesting that you can create the object 
+    # create a new comment (interesting that you can create the object
     # from the list of comments from article)
     @comment = @article.comments.create(comment_params)
 
@@ -24,7 +23,7 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article), status: :see_other
   end
 
-  private 
+  private
     def comment_params
       # allow only commenter and body when creating a comment
       params.require(:comment).permit(:commenter, :body, :status)

@@ -1,0 +1,29 @@
+<h1> sign up </h1>
+
+<%= form_with model: @user, local: true, data: { turbo: false }, url: sign_up_path do |form| %>
+
+    <% if @user.errors.any? %>
+        <div class="alert alert-danger">
+        <% @user.errors.full_messages.each do |message| %>
+            <%= message %> 
+        <% end %>
+    <% end %>
+
+    <div class="mb-3">
+        <%= form.label :username, "Username" %>
+        <%= form.text_field :username, class: "form-control", placeholder: "Username" %>
+    </div>
+
+    <div class="mb-3">
+        <%= form.label :email, "Email Address" %>
+        <%= form.text_field :email, class: "form-control", placeholder: "myname@email.com" %>
+    </div>
+    <div class="mb-3">
+        <%= form.label :password, "Password" %> 
+        <%= form.password_field :password,  class: "form-control", placeholder: "strong password"%>
+    </div>
+
+    <div class="mb-3">
+        <%= form.submit "Sign Up", class: 'btn btn-primary' %>
+    </div>
+<% end %>
