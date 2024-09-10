@@ -2,13 +2,15 @@
 <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 <%= javascript_importmap_tags %>
 
-<% unless comment.archived? %>
+<%# can be seen only if private and the user is the author of the article or the author of the comment %>
+<% unless comment.archived? or 
+((comment.article.user.id != session[:user_id] and comment.user.id != session[:user_id]) and comment.private?)%>
 
   <p>
     Comment by
     <strong> <%= comment.user.username %> </strong> :
     <%= comment.body %>
-    <% if @article.user.id == session[:user_id] %>
+    <% if comment.user.id == session[:user_id] %>
     <span class="mb-1">
         <%= link_to [comment.article, comment], data: {
                     turbo_method: :delete,

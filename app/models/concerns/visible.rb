@@ -14,4 +14,8 @@ module Visible extend ActiveSupport::Concern
   def archived?
     status == "archived"
   end
+
+  def private?
+    status == "private"
+  end
 end
