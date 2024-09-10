@@ -1,15 +1,22 @@
-<h1> Articles <h1>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true%>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= javascript_importmap_tags %>
 
-The blog has <%= Article.public_count %> articles and counting!
+<div class="container-fluid p-5 bg-primary text-white text-center">
+    <h1> Articles <h1>
+    The blog has <%= Article.public_count %> articles and counting!
+</div>
 
-<ul>
+<ul class="p-5">
     <% @articles.each do |article| %>
         <% unless article.archived? %>
             <li>
-                <%= link_to article.title, article %>
+                <h3><%= link_to article.title, article %></h3>
             </li>
         <% end %>
     <% end %>
 </ul>
 
+<div class="p-5">
 <%= link_to "New Article", new_article_path %>
+</div>
