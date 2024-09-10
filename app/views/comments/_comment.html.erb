@@ -10,12 +10,10 @@
     <%= comment.body %>
     <% if @article.user.id == session[:user_id] %>
     <span class="mb-1">
-        <%= link_to article_path(@article), data: {
-                          # use delete method instead of get 
-                          turbo_method: :delete,
-                          # adds a confirmation dialouge
-                          turbo_confirm: "Are you sure?"
-                        }  do %>
+        <%= link_to [comment.article, comment], data: {
+                    turbo_method: :delete,
+                    turbo_confirm: "Are you sure?"
+                  } do %>
           <%= image_tag('delete.png', style: 'height:18px;width:auto;')%>
         <% end %>
       </span>
