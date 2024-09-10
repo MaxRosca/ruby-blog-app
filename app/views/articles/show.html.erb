@@ -1,25 +1,49 @@
-<h1><%= @article.title %></h1>
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true%>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= javascript_importmap_tags %>
 
-<p><%= @article.body %></p>
+<div class="container-fluid p-5 bg-primary text-white text-center">
 
-<p>Author: <%= @article.user.username %></p>
+  <div class="col-12 d-flex justify-content-beginning">
+    <%= link_to articles_path do %>
+      <%= image_tag('back.png', style: 'height:30px;width:auto;')%>
+    <% end %>
+  </div>
 
-<% if @article.user.id == session[:user_id] %>
-  <ul>
-    <li><%= link_to "Edit", edit_article_path(@article) %></li>
-    <li><%= link_to "Destroy", article_path(@article), data: {
-                      # use delete method instead of get 
-                      turbo_method: :delete,
-                      # adds a confirmation dialouge
-                      turbo_confirm: "Are you sure?"
-                    } %></li>
-  </ul>
-<% end %>
+  <h1><%= @article.title %></h1>
+  <p>Author: <%= @article.user.username %></p>
+   <% if @article.user.id == session[:user_id] %>
+    <ul>
+      <span class="mb-1">
+        <%= link_to edit_article_path(@article) do %>
+          <%= image_tag('edit.png', style: 'height:30px;width:auto;')%>
+        <% end %>
+      </span>
 
-<h2>Comments <h2>
+      <span class="mb-1">
+        <%= link_to article_path(@article), data: {
+                          # use delete method instead of get 
+                          turbo_method: :delete,
+                          # adds a confirmation dialouge
+                          turbo_confirm: "Are you sure?"
+                        }  do %>
+          <%= image_tag('delete.png', style: 'height:30px;width:auto;')%>
+        <% end %>
+      </span>
 
-<%= render @article.comments %>
+      
+    </ul>
+  <% end %>
+</div>
+  
+<div class="container">
+    
+  <p class="mt-3"><%= @article.body %></p>
 
-<h2>Add a comment:</h2>
+  <div class="mb-2"><h2>Comments</h2></div>
 
-<%= render "comments/form", article: @article%>
+  <%= render @article.comments %>
+
+  <%= render "comments/form", article: @article%>
+
+</div>

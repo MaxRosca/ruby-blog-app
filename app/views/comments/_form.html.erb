@@ -7,9 +7,7 @@
   <div>
     <%= form.label :status %><br>
     <%= form.select :status, Visible::VALID_STATUSES, selected: 'public' %>
+    <%= form.submit %>
   </div>
 
-  <p>
-    <%= form.submit %>
-  </p>
 <% end %>

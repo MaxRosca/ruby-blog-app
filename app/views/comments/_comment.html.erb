@@ -1,22 +1,24 @@
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true%>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= javascript_importmap_tags %>
+
 <% unless comment.archived? %>
 
   <p>
-    <strong>Commenter:</strong>
-    <%= comment.user.username %>
-  </p>
-
-  <p>
-    <strong>Comment:</strong>
+    Comment by
+    <strong> <%= comment.user.username %> </strong> :
     <%= comment.body %>
-  </p>
-
-  <% if @article.user.id == session[:user_id] %>
-
-    <p>
-      <%= link_to "Destroy Comment", [comment.article, comment], data: {
-                    turbo_method: :delete,
-                    turbo_confirm: "Are you sure?"
-                  } %>
-    </p>
+    <% if @article.user.id == session[:user_id] %>
+    <span class="mb-1">
+        <%= link_to article_path(@article), data: {
+                          # use delete method instead of get 
+                          turbo_method: :delete,
+                          # adds a confirmation dialouge
+                          turbo_confirm: "Are you sure?"
+                        }  do %>
+          <%= image_tag('delete.png', style: 'height:18px;width:auto;')%>
+        <% end %>
+      </span>
   <% end %>
+  </p>
 <% end %>
