@@ -1,5 +1,7 @@
 class ArticlesController < ApplicationController
-  before_action :authenticate_user
+  before_action :authorize_own_article, :authenticate_user, :authorize_private_article
+  skip_before_action :authorize_own_article, only: [ :show, :index, :new, :create ]
+  skip_before_action :authorize_private_article, only: [ :index, :new, :create ]
   def index
     @articles = Article.all
   end
@@ -38,11 +40,6 @@ class ArticlesController < ApplicationController
     # get the article from the database
     @article = Article.find(params[:id])
 
-    unless @article.user == User.find(session[:user_id])
-      redirect_to article_path(@article)
-      return
-    end
-
     # update with the provided user parameters
     if @article.update(article_params)
       # if success redirect to the article
@@ -69,5 +66,20 @@ class ArticlesController < ApplicationController
     # in the request. permit title and body from article
     def article_params
       params.require(:article).permit(:title, :body, :status)
+    end
+
+    def authorize_own_article
+      @article = Article.find(params[:id])
+      if @article.user.id != session[:user_id]
+        redirect_to root_path, status: :unauthorized
+      end
+    end
+
+    def authorize_private_article
+      @article = Article.find(params[:id])
+      if @article.user.id != session[:user_id] and @article.private?
+
+        redirect_to root_path, status: :unauthorized
+      end
     end
 end
