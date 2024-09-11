@@ -11,6 +11,7 @@
   </div>
 
   <h1><%= @article.title %></h1>
+  <h3>Category: <%= @article.category %></h3>
   <p>Author: <%= @article.user.username %></p>
    <% if @article.user.id == session[:user_id] %>
     <ul>

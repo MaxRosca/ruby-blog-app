@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-  include Visible
+  include Visible, Categorized
   # mixin with Visible, inherits the methods and properties
 
   belongs_to :user

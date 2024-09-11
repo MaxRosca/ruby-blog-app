@@ -22,6 +22,12 @@
   </div>
 
   <div>
+    <%= form.label :category %><br>
+    <%= form.select :category, Categorized::VALID_CATEGORIES, selected: article.category || 'Nature' %>
+  </div>
+
+
+  <div>
     <%= form.submit %>
   </div>
 <% end %>

@@ -20,12 +20,12 @@ class ArticlesController < ApplicationController
     user = User.find(session[:user_id])
 
     @article = user.articles.create(article_params)
+    puts @article.category
     # if saved successfully then redirect to it
     if @article
       redirect_to @article
     # if not saved successfuly return status unprocessable entity
     else
-
       render :new, status: :unprocessable_entity
     end
   end
@@ -65,7 +65,7 @@ class ArticlesController < ApplicationController
     # define what parameters are allowed to be passed by user
     # in the request. permit title and body from article
     def article_params
-      params.require(:article).permit(:title, :body, :status)
+      params.require(:article).permit(:title, :body, :status, :category)
     end
 
     def authorize_own_article
