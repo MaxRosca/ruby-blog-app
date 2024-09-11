@@ -7,9 +7,9 @@ class RegistrationController < ApplicationController
       @user = User.new(user_params)
 
       if @user.save
-        redirect_to root_path, notice: "Successfully created account!"
+        redirect_to log_in_path, status: "Successfully created account!"
       else
-        redirect_to log_in_path, status: :see_other
+        redirect_to root_path, notice:  :see_other
       end
     end
 

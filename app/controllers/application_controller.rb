@@ -12,6 +12,6 @@ class ApplicationController < ActionController::Base
 
   private
     def authenticate_user
-      render json: { error: "Not Authorized" }, status: :unauthorized unless current_user
+      redirect_to log_in_path unless current_user
     end
 end
