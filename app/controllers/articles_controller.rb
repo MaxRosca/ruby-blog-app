@@ -1,5 +1,6 @@
 class ArticlesController < ApplicationController
   before_action :authorize_own_article, :authenticate_user, :authorize_private_article
+  # do not authorize your own article for show, index, new and create
   skip_before_action :authorize_own_article, only: [ :show, :index, :new, :create ]
   skip_before_action :authorize_private_article, only: [ :index, :new, :create ]
   def index
@@ -20,7 +21,7 @@ class ArticlesController < ApplicationController
     user = User.find(session[:user_id])
 
     @article = user.articles.create(article_params)
-    puts @article.category
+
     # if saved successfully then redirect to it
     if @article
       redirect_to @article
@@ -68,6 +69,7 @@ class ArticlesController < ApplicationController
       params.require(:article).permit(:title, :body, :status, :category)
     end
 
+    # allow to edit or delete only your own articles
     def authorize_own_article
       @article = Article.find(params[:id])
       if @article.user.id != session[:user_id]
@@ -75,6 +77,7 @@ class ArticlesController < ApplicationController
       end
     end
 
+    # allow to view only your own articles if they are private
     def authorize_private_article
       @article = Article.find(params[:id])
       if @article.user.id != session[:user_id] and @article.private?

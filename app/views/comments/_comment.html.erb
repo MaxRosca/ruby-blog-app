@@ -10,8 +10,9 @@
     Comment by
     <strong> <%= comment.user.username %> </strong> :
     <%= comment.body %>
+
     <% if comment.user.id == session[:user_id] %>
-    <span class="mb-1">
+      <span class="mb-1">
         <%= link_to [comment.article, comment], data: {
                     turbo_method: :delete,
                     turbo_confirm: "Are you sure?"
@@ -19,6 +20,10 @@
           <%= image_tag('delete.png', style: 'height:18px;width:auto;')%>
         <% end %>
       </span>
-  <% end %>
+    <% end %>
+
+    <%= comment.likes.count %>
+    <td><%= link_to "Like", article_comment_like_path(comment.article, comment.id), data: { turbo_method: :post }%></td>
+
   </p>
 <% end %>

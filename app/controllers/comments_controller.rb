@@ -25,6 +25,22 @@ class CommentsController < ApplicationController
     redirect_to article_path(@article), status: :see_other
   end
 
+  def like
+    @comment = Comment.find(params[:comment_id])
+
+    user = User.find(session[:user_id])
+
+    @like = @comment.likes.create(user_id: session[:user_id], comment_id: @comment.id)
+    puts @comment.likes
+    puts @like.comment
+    if @like.persisted?
+      head :ok
+    else
+      puts @like.errors.full_messages
+      head :unprocessable_entity
+    end
+  end
+
   private
     def comment_params
       # allow only commenter and body when creating a comment
