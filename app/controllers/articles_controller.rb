@@ -63,8 +63,6 @@ class ArticlesController < ApplicationController
   end
 
   def like
-    puts "heeelelel"
-    puts "like?"
     @article = Article.find(params[:article_id])
 
     @like = @article.likes.find { |like| like.user_id == session[:user_id] }

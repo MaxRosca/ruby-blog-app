@@ -33,7 +33,14 @@
     </span>
   <% end %>
 
-  <td><%= link_to "Like", article_like_path(@article), data: { turbo_method: :post }%></td>
+  <%= link_to article_like_path(@article), data: { turbo_method: :post } do%>
+    <% if @article.likes.find { |like| like.user_id == session[:user_id] } %>
+      <%= image_tag('like.png', style: 'height:18px;width:auto;')%>
+    <% else %>
+      <%= image_tag('not_liked.png', style: 'height:18px;width:auto;')%>
+    <% end %>
+  <% end %>
+
   <%= @article.likes.count %>
 
 </div>

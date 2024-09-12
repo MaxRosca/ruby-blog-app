@@ -22,7 +22,14 @@
       </span>
     <% end %>
 
-    <td><%= link_to "Like", article_comment_like_path(comment.article, comment.id), data: { turbo_method: :post }%></td>
+    <td><%= link_to article_comment_like_path(comment.article, comment.id), data: { turbo_method: :post } do%>
+      <% if comment.likes.find { |like| like.user_id == session[:user_id] } %>
+        <%= image_tag('like.png', style: 'height:18px;width:auto;')%>
+      <% else %>
+        <%= image_tag('not_liked.png', style: 'height:18px;width:auto;')%>
+      <% end %>
+
+    <% end %></td>
     <%= comment.likes.count %>
 
   </p>
