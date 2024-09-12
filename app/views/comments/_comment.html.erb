@@ -22,8 +22,8 @@
       </span>
     <% end %>
 
-    <%= comment.likes.count %>
     <td><%= link_to "Like", article_comment_like_path(comment.article, comment.id), data: { turbo_method: :post }%></td>
+    <%= comment.likes.count %>
 
   </p>
 <% end %>
