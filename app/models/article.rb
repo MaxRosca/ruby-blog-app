@@ -8,6 +8,8 @@ class Article < ApplicationRecord
   # multiple comments. When article deleted remove it's comments as well
   has_many :comments, dependent: :destroy
 
+  has_many :likes
+
   # must have a title
   validates :title, presence: true
 

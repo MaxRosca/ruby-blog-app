@@ -1,8 +1,8 @@
 class ArticlesController < ApplicationController
   before_action :authorize_own_article, :authenticate_user, :authorize_private_article
   # do not authorize your own article for show, index, new and create
-  skip_before_action :authorize_own_article, only: [ :show, :index, :new, :create ]
-  skip_before_action :authorize_private_article, only: [ :index, :new, :create ]
+  skip_before_action :authorize_own_article, only: [ :show, :index, :new, :create, :like ]
+  skip_before_action :authorize_private_article, only: [ :index, :new, :create, :like ]
   def index
     @articles = Article.all
   end
@@ -60,6 +60,27 @@ class ArticlesController < ApplicationController
 
     # return to root
     redirect_to root_path, status: :see_other
+  end
+
+  def like
+    puts "heeelelel"
+    puts "like?"
+    @article = Article.find(params[:article_id])
+
+    @like = @article.likes.find { |like| like.user_id == session[:user_id] }
+
+    if @like
+      @like.destroy
+      redirect_back(fallback_location: root_path)
+    else
+      @like = @article.likes.create(user_id: session[:user_id], article_id: @article.id)
+
+      if @like.persisted?
+        redirect_back(fallback_location: root_path)
+      else
+        head :unprocessable_entity
+      end
+    end
   end
 
   private

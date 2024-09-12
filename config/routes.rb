@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   root "articles#index"
 
   resources :articles do
+    post "like", to: "articles#like"
     resources :comments do
       post "like", to: "comments#like"
     end

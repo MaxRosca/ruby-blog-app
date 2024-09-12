@@ -13,28 +13,29 @@
   <h1><%= @article.title %></h1>
   <h3>Category: <%= @article.category %></h3>
   <p>Author: <%= @article.user.username %></p>
-   <% if @article.user.id == session[:user_id] %>
-    <ul>
-      <span class="mb-1">
-        <%= link_to edit_article_path(@article) do %>
-          <%= image_tag('edit.png', style: 'height:30px;width:auto;')%>
-        <% end %>
-      </span>
 
-      <span class="mb-1">
-        <%= link_to article_path(@article), data: {
-                          # use delete method instead of get 
-                          turbo_method: :delete,
-                          # adds a confirmation dialouge
-                          turbo_confirm: "Are you sure?"
-                        }  do %>
-          <%= image_tag('delete.png', style: 'height:30px;width:auto;')%>
-        <% end %>
-      </span>
+  <% if @article.user.id == session[:user_id] %>
+    <span class="mb-1">
+      <%= link_to edit_article_path(@article) do %>
+        <%= image_tag('edit.png', style: 'height:30px;width:auto;')%>
+      <% end %>
+    </span>
 
-      
-    </ul>
+    <span class="mb-1">
+      <%= link_to article_path(@article), data: {
+                        # use delete method instead of get 
+                        turbo_method: :delete,
+                        # adds a confirmation dialouge
+                        turbo_confirm: "Are you sure?"
+                      }  do %>
+        <%= image_tag('delete.png', style: 'height:30px;width:auto;')%>
+      <% end %>
+    </span>
   <% end %>
+
+  <td><%= link_to "Like", article_like_path(@article), data: { turbo_method: :post }%></td>
+  <%= @article.likes.count %>
+
 </div>
   
 <div class="container">
