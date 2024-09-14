@@ -1,0 +1,20 @@
+<%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true%>
+<%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+<%= javascript_importmap_tags %>
+
+<div class="container-fluid p-5 bg-primary text-white text-center">
+
+    <div class="col-12 d-flex justify-content-beginning">
+    <%= link_to articles_path do %>
+        <%= image_tag('back.png', style: 'height:30px;width:auto;')%>
+    <% end %>
+    </div>
+
+    <h1><%= @user.username %></h1>
+
+    <span class="mb-1">
+        <%= link_to edit_user_path(@user) do %>
+            <%= image_tag('edit.png', style: 'height:30px;width:auto;')%>
+        <% end %>
+    </span>
+</div>

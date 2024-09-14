@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :users
+
   get "sign_up", to: "registration#new"
   post "sign_up", to: "registration#create"
 
