@@ -28,19 +28,10 @@ class CommentsController < ApplicationController
   def like
     @comment = Comment.find(params[:comment_id])
 
-    @like = @comment.likes.find { |like| like.user_id == session[:user_id] }
-
-    if @like
-      @like.destroy
+    if @comment.like(session[:user_id])
       redirect_back(fallback_location: root_path)
     else
-      @like = @comment.likes.create(user_id: session[:user_id], comment_id: @comment.id)
-
-      if @like.persisted?
-        redirect_back(fallback_location: root_path)
-      else
-        head :unprocessable_entity
-      end
+      head :unprocessable_entity
     end
   end
 

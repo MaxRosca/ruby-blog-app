@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-  include Visible, Categorized
+  include Visible, Categorized, Likeable
   # mixin with Visible, inherits the methods and properties
 
   belongs_to :user
@@ -15,4 +15,8 @@ class Article < ApplicationRecord
 
   # must have a body
   validates :body, presence: true, length: { minimum: 10 }
+
+  def create_like(user_id)
+    self.likes.create(user_id: user_id, article_id: self.id)
+  end
 end

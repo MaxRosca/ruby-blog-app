@@ -65,19 +65,10 @@ class ArticlesController < ApplicationController
   def like
     @article = Article.find(params[:article_id])
 
-    @like = @article.likes.find { |like| like.user_id == session[:user_id] }
-
-    if @like
-      @like.destroy
+    if @article.like(session[:user_id])
       redirect_back(fallback_location: root_path)
     else
-      @like = @article.likes.create(user_id: session[:user_id], article_id: @article.id)
-
-      if @like.persisted?
-        redirect_back(fallback_location: root_path)
-      else
-        head :unprocessable_entity
-      end
+      head :unprocessable_entity
     end
   end
 
