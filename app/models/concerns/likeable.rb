@@ -12,14 +12,12 @@ module Likeable extend ActiveSupport::Concern
     else
       like = self.create_like(user_id)
 
-      if like.persisted?
-        true
-      else
-        false
-      end
+      like.persisted?
     end
   end
 
+  # each likeable has different logic of saving the like
+  # must be overriden
   def create_like(user_id)
     raise AbstractMethodError.new(self.class, __method__)
   end
